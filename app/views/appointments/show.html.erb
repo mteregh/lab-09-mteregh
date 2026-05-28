@@ -10,12 +10,16 @@
   </div>
 </div>
 
-<%= link_to "Edit", edit_appointment_path(@appointment), class: "btn btn-warning" %>
+<% if policy(@appointment).edit? %>
+  <%= link_to "Edit", edit_appointment_path(@appointment), class: "btn btn-warning" %>
+<% end %>
 
-<%= button_to "Delete", appointment_path(@appointment),
-      method: :delete,
-      data: { turbo_confirm: "Are you sure?" },
-      class: "btn btn-danger d-inline" %>
+<% if policy(@appointment).destroy? %>
+  <%= button_to "Delete", appointment_path(@appointment),
+        method: :delete,
+        data: { turbo_confirm: "Are you sure?" },
+        class: "btn btn-danger d-inline" %>
+<% end %>
 
 <%= link_to "Back to appointments", appointments_path, class: "btn btn-secondary" %>
 
@@ -23,9 +27,11 @@
 
 <h2>Treatments</h2>
 
-<%= link_to "New Treatment",
-      new_appointment_treatment_path(@appointment),
-      class: "btn btn-primary mb-3" %>
+<% if policy(Treatment).new? %>
+  <%= link_to "New Treatment",
+        new_appointment_treatment_path(@appointment),
+        class: "btn btn-primary mb-3" %>
+<% end %>
 
 <% if @appointment.treatments.any? %>
   <table class="table table-striped table-bordered">
@@ -48,16 +54,21 @@
           <td><%= treatment.dosage %></td>
           <td><%= treatment.administered_at&.strftime("%B %d, %Y %I:%M %p") %></td>
           <td><%= treatment.clinical_notes %></td>
-          <td>
-            <%= link_to "Edit",
-                  edit_appointment_treatment_path(@appointment, treatment),
-                  class: "btn btn-warning btn-sm me-1" %>
 
-            <%= button_to "Delete",
-                  appointment_treatment_path(@appointment, treatment),
-                  method: :delete,
-                  data: { turbo_confirm: "Are you sure?" },
-                  class: "btn btn-danger btn-sm d-inline" %>
+          <td>
+            <% if policy(treatment).edit? %>
+              <%= link_to "Edit",
+                    edit_appointment_treatment_path(@appointment, treatment),
+                    class: "btn btn-warning btn-sm me-1" %>
+            <% end %>
+
+            <% if policy(treatment).destroy? %>
+              <%= button_to "Delete",
+                    appointment_treatment_path(@appointment, treatment),
+                    method: :delete,
+                    data: { turbo_confirm: "Are you sure?" },
+                    class: "btn btn-danger btn-sm d-inline" %>
+            <% end %>
           </td>
         </tr>
       <% end %>

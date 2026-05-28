@@ -32,11 +32,15 @@
 
 <hr>
 
-<%= link_to "Edit", edit_pet_path(@pet), class: "btn btn-warning" %>
+<% if policy(@pet).edit? %>
+  <%= link_to "Edit", edit_pet_path(@pet), class: "btn btn-warning" %>
+<% end %>
 
-<%= button_to "Delete", pet_path(@pet),
-      method: :delete,
-      data: { turbo_confirm: "Are you sure?" },
-      class: "btn btn-danger" %>
+<% if policy(@pet).destroy? %>
+  <%= button_to "Delete", pet_path(@pet),
+        method: :delete,
+        data: { turbo_confirm: "Are you sure?" },
+        class: "btn btn-danger" %>
+<% end %>
 
 <%= link_to "Back to pets", pets_path, class: "btn btn-secondary" %>

@@ -9,9 +9,15 @@
     <div class="collapse navbar-collapse" id="mainNavbar">
       <% if user_signed_in? %>
         <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-            <%= link_to "Owners", owners_path, class: "nav-link" %>
-          </li>
+          <% if current_user.admin? || current_user.vet? %>
+            <li class="nav-item">
+              <%= link_to "Owners", owners_path, class: "nav-link" %>
+            </li>
+          <% elsif current_user.owner? && current_user.owner.present? %>
+            <li class="nav-item">
+              <%= link_to "My account", owner_path(current_user.owner), class: "nav-link" %>
+            </li>
+          <% end %>
 
           <li class="nav-item">
             <%= link_to "Pets", pets_path, class: "nav-link" %>

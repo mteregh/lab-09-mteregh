@@ -22,11 +22,15 @@
 
 <hr>
 
-<%= link_to "Edit", edit_vet_path(@vet), class: "btn btn-warning" %>
+<% if policy(@vet).edit? %>
+  <%= link_to "Edit", edit_vet_path(@vet), class: "btn btn-warning" %>
+<% end %>
 
-<%= button_to "Delete", vet_path(@vet),
-      method: :delete,
-      data: { turbo_confirm: "Are you sure?" },
-      class: "btn btn-danger" %>
+<% if policy(@vet).destroy? %>
+  <%= button_to "Delete", vet_path(@vet),
+        method: :delete,
+        data: { turbo_confirm: "Are you sure?" },
+        class: "btn btn-danger" %>
+<% end %>
 
 <%= link_to "Back to vets", vets_path, class: "btn btn-secondary" %>

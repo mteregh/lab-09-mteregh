@@ -1,11 +1,13 @@
 <h1 class="mb-4">Pets</h1>
 
-<%= link_to "New Pet", new_pet_path, class: "btn btn-primary mb-3" %>
+<% if policy(Pet).new? %>
+  <%= link_to "New Pet", new_pet_path, class: "btn btn-primary mb-3" %>
+<% end %>
 
 <table class="table table-striped table-bordered">
   <thead class="table-dark">
     <tr>
-      <th>Photo</th> 
+      <th>Photo</th>
       <th>Name</th>
       <th>Species</th>
       <th>Breed</th>
@@ -33,12 +35,16 @@
         <td><%= pet.date_of_birth.strftime("%B %d, %Y") %></td>
 
         <td>
-          <%= link_to "Edit", edit_pet_path(pet), class: "btn btn-warning btn-sm me-1" %>
+          <% if policy(pet).edit? %>
+            <%= link_to "Edit", edit_pet_path(pet), class: "btn btn-warning btn-sm me-1" %>
+          <% end %>
 
-          <%= button_to "Delete", pet_path(pet),
-                method: :delete,
-                data: { turbo_confirm: "Are you sure?" },
-                class: "btn btn-danger btn-sm d-inline" %>
+          <% if policy(pet).destroy? %>
+            <%= button_to "Delete", pet_path(pet),
+                  method: :delete,
+                  data: { turbo_confirm: "Are you sure?" },
+                  class: "btn btn-danger btn-sm d-inline" %>
+          <% end %>
         </td>
       </tr>
     <% end %>

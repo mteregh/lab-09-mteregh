@@ -9,22 +9,26 @@
 </div>
 
 <h2>Pets</h2>
+
 <ul class="list-group">
   <% @owner.pets.each do |pet| %>
     <li class="list-group-item">
       <%= link_to pet.name, pet_path(pet) %>
     </li>
   <% end %>
-  
 </ul>
 
 <hr>
 
-<%= link_to "Edit", edit_owner_path(@owner), class: "btn btn-warning" %>
+<% if policy(@owner).edit? %>
+  <%= link_to "Edit", edit_owner_path(@owner), class: "btn btn-warning" %>
+<% end %>
 
-<%= button_to "Delete", owner_path(@owner),
-      method: :delete,
-      data: { turbo_confirm: "Are you sure?" },
-      class: "btn btn-danger" %>
+<% if policy(@owner).destroy? %>
+  <%= button_to "Delete", owner_path(@owner),
+        method: :delete,
+        data: { turbo_confirm: "Are you sure?" },
+        class: "btn btn-danger" %>
+<% end %>
 
 <%= link_to "Back to owners", owners_path, class: "btn btn-secondary" %>

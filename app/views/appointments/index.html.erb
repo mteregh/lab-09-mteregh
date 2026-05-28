@@ -1,6 +1,8 @@
 <h1 class="mb-4">Appointments</h1>
 
-<%= link_to "New Appointment", new_appointment_path, class: "btn btn-primary mb-3" %>
+<% if policy(Appointment).new? %>
+  <%= link_to "New Appointment", new_appointment_path, class: "btn btn-primary mb-3" %>
+<% end %>
 
 <table class="table table-striped table-bordered">
   <thead class="table-dark">
@@ -24,15 +26,18 @@
         <td><%= appointment.status.humanize %></td>
 
         <td>
-          <%= link_to "Edit", edit_appointment_path(appointment), class: "btn btn-warning btn-sm me-1" %>
+          <% if policy(appointment).edit? %>
+            <%= link_to "Edit", edit_appointment_path(appointment), class: "btn btn-warning btn-sm me-1" %>
+          <% end %>
 
-          <%= button_to "Delete", appointment_path(appointment),
-                method: :delete,
-                data: { turbo_confirm: "Are you sure?" },
-                class: "btn btn-danger btn-sm d-inline" %>
+          <% if policy(appointment).destroy? %>
+            <%= button_to "Delete", appointment_path(appointment),
+                  method: :delete,
+                  data: { turbo_confirm: "Are you sure?" },
+                  class: "btn btn-danger btn-sm d-inline" %>
+          <% end %>
         </td>
       </tr>
     <% end %>
   </tbody>
-  
 </table>
