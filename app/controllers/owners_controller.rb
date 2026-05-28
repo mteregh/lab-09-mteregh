@@ -2,18 +2,21 @@ class OwnersController < ApplicationController
   before_action :set_owner, only: [:show, :edit, :update, :destroy]
 
   def index
-    @owners = Owner.all
+    @owners = policy_scope(Owner)
   end
 
   def show
+    authorize @owner
   end
 
   def new
     @owner = Owner.new
+    authorize @owner
   end
 
   def create
     @owner = Owner.new(owner_params)
+    authorize @owner
 
     if @owner.save
       redirect_to @owner, notice: "Owner was successfully created."
@@ -23,9 +26,12 @@ class OwnersController < ApplicationController
   end
 
   def edit
+    authorize @owner
   end
 
   def update
+    authorize @owner
+
     if @owner.update(owner_params)
       redirect_to @owner, notice: "Owner was successfully updated."
     else
@@ -34,6 +40,8 @@ class OwnersController < ApplicationController
   end
 
   def destroy
+    authorize @owner
+
     @owner.destroy
     redirect_to owners_path, notice: "Owner was successfully deleted."
   end
@@ -45,7 +53,7 @@ class OwnersController < ApplicationController
   end
 
   def owner_params
-    params.require(:owner).permit(:first_name, :last_name, :email, :phone, :address)
+    params.require(:owner).permit(policy(@owner || Owner).permitted_attributes)
   end
   
 end

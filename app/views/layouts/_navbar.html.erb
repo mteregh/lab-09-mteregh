@@ -31,10 +31,6 @@
             <%= current_user.full_name %>
           </span>
 
-          <%= link_to "Edit account",
-                edit_user_registration_path,
-                class: "btn btn-outline-light btn-sm" %>
-
           <%= button_to "Sign out",
                 destroy_user_session_path,
                 method: :delete,
@@ -46,10 +42,6 @@
           <%= link_to "Sign in",
                 new_user_session_path,
                 class: "btn btn-outline-light" %>
-
-          <%= link_to "Sign up",
-                new_user_registration_path,
-                class: "btn btn-primary" %>
         </div>
       <% end %>
     </div>

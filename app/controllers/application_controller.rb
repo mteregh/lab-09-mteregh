@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!, unless: :devise_controller?
   before_action :configure_permitted_parameters, if: :devise_controller?
 
-  # after_action :verify_pundit_authorization, unless: :devise_controller?
+  after_action :verify_pundit_authorization, unless: :devise_controller?
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
