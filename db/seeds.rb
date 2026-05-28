@@ -1,46 +1,37 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
-
 Treatment.destroy_all
 Appointment.destroy_all
 Pet.destroy_all
 Vet.destroy_all
-User.destroy_all
 Owner.destroy_all
+User.destroy_all
 
-users = [
-  User.create!(
-    first_name: "Admin",
-    last_name: "User",
-    email: "admin@vetclinic.com",
-    password: "password123",
-    role: :admin
-  ),
-  User.create!(
-    first_name: "Vet",
-    last_name: "User",
-    email: "vet@vetclinic.com",
-    password: "password123",
-    role: :vet
-  ),
-  User.create!(
-    first_name: "Owner",
-    last_name: "User",
-    email: "owner@vetclinic.com",
-    password: "password123",
-    role: :owner
-  )
-]
+admin_user = User.create!(
+  first_name: "Admin",
+  last_name: "User",
+  email: "admin@vetclinic.com",
+  password: "password123",
+  role: :admin
+)
+
+vet_user = User.create!(
+  first_name: "Vet",
+  last_name: "User",
+  email: "vet@vetclinic.com",
+  password: "password123",
+  role: :vet
+)
+
+owner_user = User.create!(
+  first_name: "Owner",
+  last_name: "User",
+  email: "owner@vetclinic.com",
+  password: "password123",
+  role: :owner
+)
 
 owners = [
   Owner.create!(
+    user: owner_user,
     first_name: "Maria",
     last_name: "Guerra",
     email: "maria.guerra@example.com",
@@ -100,6 +91,7 @@ pets = [
     weight: 5.0
   )
 ]
+
 seed_photos = [
   [pets[0], "dog.jpg"],
   [pets[1], "cat.jpg"],
@@ -124,6 +116,7 @@ end
 
 vets = [
   Vet.create!(
+    user: vet_user,
     first_name: "Ana",
     last_name: "Rojas",
     email: "ana.rojas@vetclinic.com",
