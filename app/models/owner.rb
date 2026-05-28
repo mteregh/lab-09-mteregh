@@ -1,4 +1,6 @@
 class Owner < ApplicationRecord
+  belongs_to :user, optional: true
+
   has_many :pets
 
   validates :first_name, :last_name, :phone, presence: true

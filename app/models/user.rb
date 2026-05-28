@@ -1,8 +1,13 @@
 class User < ApplicationRecord
+  has_one :owner, dependent: :nullify
+  has_one :vet, dependent: :nullify
+
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+  # :confirmable, :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable,
+         :recoverable,
+         :rememberable,
+         :validatable
 
   enum :role, { owner: 0, vet: 1, admin: 2 }
 
